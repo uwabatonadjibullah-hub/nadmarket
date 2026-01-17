@@ -66,7 +66,7 @@
                 <a href="#books" class="nav-link text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-gold transition-colors">Books</a>
                 <a href="#music" class="nav-link text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-gold transition-colors">Music</a>
                 <a href="#contact" class="nav-link text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-gold transition-colors">Contact</a>
-                <button onclick="document.getElementById('payment-modal').classList.remove('hidden'); document.getElementById('payment-modal').classList.add('flex');" class="bg-gold text-black px-5 py-2 text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors">
+                <button onclick="openTipModal()" class="bg-gold text-black px-5 py-2 text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors">
                     Tip Us
                 </button>
             </div>
@@ -84,6 +84,7 @@
             <a href="#books" class="text-sm font-bold uppercase tracking-widest text-gray-300 hover:text-gold">Books</a>
             <a href="#music" class="text-sm font-bold uppercase tracking-widest text-gray-300 hover:text-gold">Music</a>
             <a href="#contact" class="text-sm font-bold uppercase tracking-widest text-gray-300 hover:text-gold">Contact</a>
+            <button onclick="openTipModal(); document.getElementById('mobile-menu').classList.add('hidden');" class="text-sm font-bold uppercase tracking-widest text-gold text-left">Tip Us</button>
         </div>
     </nav>
 
@@ -283,8 +284,8 @@
                     <i data-lucide="check"></i>
                 </div>
                 <h3 class="text-2xl font-serif text-white mb-2">Payment Verified</h3>
-                <p class="text-gray-400 mb-6">Thank you. Access details have been sent to your email.</p>
-                <button onclick="closeModal()" class="bg-white text-black px-8 py-3 font-bold uppercase tracking-wider hover:bg-gold transition-colors">Close</button>
+                <p id="success-message" class="text-gray-400 mb-6">Thank you. Access details have been sent to your email.</p>
+                <button id="success-action-btn" onclick="closeModal()" class="bg-white text-black px-8 py-3 font-bold uppercase tracking-wider hover:bg-gold transition-colors">Close</button>
             </div>
         </div>
     </div>
@@ -411,6 +412,30 @@
             attemptCount = 0;
             document.getElementById('pay-error').classList.add('hidden');
             document.getElementById('help-btn').classList.add('hidden');
+
+            // Clear inputs
+            document.getElementById('pay-email').value = '';
+            document.getElementById('pay-id').value = '';
+        }
+
+        function openTipModal() {
+            currentProduct = { title: 'Support NAD Productions', price: 0, id: 'tip', isTip: true, status: 'Available' }; 
+            
+            document.getElementById('modal-product-title').innerText = currentProduct.title;
+            document.getElementById('modal-product-price').innerText = "Enter Amount via MoMo";
+            
+            document.getElementById('modal-step-1').classList.remove('hidden');
+            document.getElementById('modal-step-2').classList.add('hidden');
+            document.getElementById('payment-modal').classList.remove('hidden');
+            document.getElementById('payment-modal').classList.add('flex');
+            
+            attemptCount = 0;
+            document.getElementById('pay-error').classList.add('hidden');
+            document.getElementById('help-btn').classList.add('hidden');
+            
+            // Clear inputs
+            document.getElementById('pay-email').value = '';
+            document.getElementById('pay-id').value = '';
         }
 
         function closeModal() {
@@ -442,7 +467,42 @@
 
             // Success
             document.getElementById('modal-step-1').classList.add('hidden');
-            document.getElementById('modal-step-2').classList.remove('hidden');
+            const step2 = document.getElementById('modal-step-2');
+            step2.classList.remove('hidden');
+
+            const successBtn = document.getElementById('success-action-btn');
+            const successMsg = document.getElementById('success-message');
+
+            const isPreBook = currentProduct.status && currentProduct.status.toLowerCase().includes('coming');
+            const isTip = currentProduct.isTip;
+
+            if (isPreBook || isTip) {
+                // Case: Pre-book or Tip -> Close Button
+                successBtn.innerText = "Close";
+                successBtn.onclick = closeModal;
+                successMsg.innerText = isTip ? "Thank you for your generous support!" : "Payment Verified. You will be notified via email when it drops.";
+            } else {
+                // Case: Content -> Access Button
+                let actionText = "Open Content";
+                let iconName = "external-link";
+                
+                if (currentProduct.category === 'Music') {
+                    actionText = "Listen Now";
+                    iconName = "music";
+                } else if (currentProduct.category.includes('Film') || currentProduct.category.includes('AI')) {
+                    actionText = "Watch Now";
+                    iconName = "play";
+                } else if (currentProduct.category === 'Book' || currentProduct.category === 'Script') {
+                    actionText = "Read Now";
+                    iconName = "book-open";
+                }
+                
+                // Update button text and icon
+                successBtn.innerHTML = `${actionText} <i data-lucide="${iconName}" class="w-4 h-4 ml-2 inline"></i>`;
+                successBtn.onclick = () => window.open(currentProduct.url, '_blank');
+                successMsg.innerText = "Payment Verified. Access your content below.";
+                lucide.createIcons(); // Refresh icons in the button
+            }
         }
 
         function contactSupport() {
