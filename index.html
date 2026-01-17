@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO META TAGS -->
+    <title>NAD PRODUCTIONS | Where Technical Mastery Meets Artistic Soul</title>
+    <meta name="description" content="A multidisciplinary creative studio in East Africa merging high-performance engineering with cinematic storytelling.">
+    
+    <!-- TAILWIND CSS (Styling) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: '#D4AF37',
+                        'gold-light': '#F2E8C9',
+                    },
+                    fontFamily: {
+                        serif: ['Georgia', 'serif'],
+                        sans: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 1s ease-out forwards',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        slideUp: { '0%': { transform: 'translateY(20px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- ICONS -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        /* Custom scrollbar for a premium feel */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+        .glass-panel { background: rgba(17, 17, 17, 0.95); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="bg-black text-white font-sans antialiased selection:bg-gold selection:text-black">
+
+    <!-- NAVIGATION -->
+    <nav id="navbar" class="fixed w-full z-40 transition-all duration-300 py-6">
+        <div class="container mx-auto px-6 flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3 group">
+                <img src="https://i.postimg.cc/tT8KdH7L/NAD-LOGO.png" alt="NAD Logo" class="h-10 w-auto object-contain transition-transform group-hover:scale-105">
+                <span class="font-serif font-bold tracking-[0.2em] text-lg text-white group-hover:text-gold transition-colors">
+                    NAD PROD
+                </span>
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#about" class="nav-link text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-gold transition-colors">About</a>
+                <a href="#films" class="nav-link text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-gold transition-colors">Films</a>
+                <a href="#books" class="nav-link text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-gold transition-colors">Books</a>
+                <a href="#music" class="nav-link text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-gold transition-colors">Music</a>
+                <a href="#contact" class="nav-link text-xs font-bold uppercase tracking-widest text-gray-300 hover:text-gold transition-colors">Contact</a>
+                <button onclick="document.getElementById('payment-modal').classList.remove('hidden'); document.getElementById('payment-modal').classList.add('flex');" class="bg-gold text-black px-5 py-2 text-xs font-bold uppercase tracking-widest hover:bg-white transition-colors">
+                    Tip Us
+                </button>
+            </div>
+
+            <!-- Mobile Toggle -->
+            <button id="menu-btn" class="md:hidden text-white hover:text-gold">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-[#0a0a0a] border-b border-gray-800 p-6 flex flex-col gap-4 shadow-2xl">
+            <a href="#about" class="text-sm font-bold uppercase tracking-widest text-gray-300 hover:text-gold">About</a>
+            <a href="#films" class="text-sm font-bold uppercase tracking-widest text-gray-300 hover:text-gold">Films</a>
+            <a href="#books" class="text-sm font-bold uppercase tracking-widest text-gray-300 hover:text-gold">Books</a>
+            <a href="#music" class="text-sm font-bold uppercase tracking-widest text-gray-300 hover:text-gold">Music</a>
+            <a href="#contact" class="text-sm font-bold uppercase tracking-widest text-gray-300 hover:text-gold">Contact</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071&auto=format&fit=crop')] bg-cover bg-center opacity-30"></div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+        
+        <div class="relative z-10 container mx-auto px-6 text-center pt-20">
+            <img src="https://i.postimg.cc/tT8KdH7L/NAD-LOGO.png" alt="NAD Logo" class="h-24 md:h-32 mx-auto mb-8 animate-fade-in">
+            <h1 class="text-4xl md:text-7xl font-serif font-bold text-white mb-6 tracking-tight leading-tight animate-slide-up">
+                Where Technical Mastery <br/> 
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold to-gold-light">
+                    Meets Artistic Soul.
+                </span>
+            </h1>
+            <p class="text-gray-400 text-sm md:text-lg max-w-2xl mx-auto tracking-wide font-light mb-10 animate-slide-up" style="animation-delay: 100ms;">
+                Every frame matters. Every line of code counts. Every beat of sound tells a story.
+            </p>
+            <div class="flex flex-col md:flex-row gap-4 justify-center animate-slide-up" style="animation-delay: 200ms;">
+                <a href="#films" class="px-8 py-3 bg-gold text-black font-bold uppercase tracking-widest hover:bg-white transition-colors duration-300">
+                    Explore Productions
+                </a>
+                <a href="https://booknadprod.web.app/" target="_blank" class="px-8 py-3 border border-white text-white font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-colors duration-300">
+                    Book Us
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-24 bg-black relative">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <h2 class="text-sm font-bold text-gold tracking-[0.3em] uppercase mb-4">Who We Are</h2>
+                    <h3 class="text-4xl md:text-5xl font-serif text-white mb-8">
+                        Operating at the intersection of <span class="italic text-gray-400">technology</span> and <span class="italic text-gray-400">art</span>.
+                    </h3>
+                    <div class="space-y-6 text-gray-400 font-light leading-relaxed">
+                        <p>Founded by <strong class="text-white">Nadjibullah Uwabato</strong>, a multidisciplinary creative with a background in Mechanical Engineering and Filmmaking, our studio brings a unique perspective to production.</p>
+                        <p>We approach every project with the analytical mind of an engineer and the heart of a storyteller.</p>
+                    </div>
+                </div>
+                <div class="space-y-8">
+                    <div class="flex gap-4 border-l-2 border-gray-800 hover:border-gold pl-6 transition-colors duration-300">
+                        <div><h4 class="text-white font-bold uppercase tracking-wider mb-1">Filmmaking</h4><p class="text-gray-500 text-sm">Cinematic narratives from script to screen.</p></div>
+                    </div>
+                    <div class="flex gap-4 border-l-2 border-gray-800 hover:border-gold pl-6 transition-colors duration-300">
+                        <div><h4 class="text-white font-bold uppercase tracking-wider mb-1">Web Development</h4><p class="text-gray-500 text-sm">Merging high-performance code with striking design.</p></div>
+                    </div>
+                    <div class="flex gap-4 border-l-2 border-gray-800 hover:border-gold pl-6 transition-colors duration-300">
+                        <div><h4 class="text-white font-bold uppercase tracking-wider mb-1">Book Writing</h4><p class="text-gray-500 text-sm">Stories that form the blueprint for imagination.</p></div>
+                    </div>
+                    <div class="flex gap-4 border-l-2 border-gray-800 hover:border-gold pl-6 transition-colors duration-300">
+                        <div><h4 class="text-white font-bold uppercase tracking-wider mb-1">Music & Sound</h4><p class="text-gray-500 text-sm">Sonic landscapes that elevate the experience.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FILMS SECTION -->
+    <section id="films" class="py-24 bg-[#050505]">
+        <div class="container mx-auto px-6">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-white mb-4 tracking-wider uppercase">Cinematic Works</h2>
+                <div class="h-1 w-24 bg-gold mx-auto mb-4"></div>
+            </div>
+            <!-- Films Container -->
+            <div id="films-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </div>
+    </section>
+
+    <!-- BOOKS SECTION -->
+    <section id="books" class="py-24 bg-black">
+        <div class="container mx-auto px-6">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-white mb-4 tracking-wider uppercase">Published Works</h2>
+                <div class="h-1 w-24 bg-gold mx-auto mb-4"></div>
+            </div>
+            <div id="books-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
+        </div>
+    </section>
+
+    <!-- MUSIC & AI FILMS GRID -->
+    <section id="music" class="py-24 bg-[#050505]">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <!-- Music -->
+                <div>
+                    <div class="flex items-center gap-4 mb-8">
+                        <i data-lucide="music" class="text-gold"></i>
+                        <h3 class="text-2xl font-serif text-white uppercase tracking-widest">Music</h3>
+                    </div>
+                    <div id="music-grid" class="space-y-6"></div>
+                </div>
+                <!-- AI Films -->
+                <div>
+                    <div class="flex items-center gap-4 mb-8">
+                        <i data-lucide="film" class="text-gold"></i>
+                        <h3 class="text-2xl font-serif text-white uppercase tracking-widest">AI Films</h3>
+                    </div>
+                    <div id="ai-films-grid" class="space-y-6"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SCRIPTS SECTION -->
+    <section class="py-24 bg-black border-t border-gray-900">
+        <div class="container mx-auto px-6">
+            <div class="mb-12 text-center">
+                <h2 class="text-3xl md:text-5xl font-serif font-bold text-white mb-4 tracking-wider uppercase">Scripts & Stories</h2>
+                <div class="h-1 w-24 bg-gold mx-auto mb-4"></div>
+            </div>
+            <div id="scripts-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8"></div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contact" class="bg-[#0a0a0a] border-t border-gold">
+        <div class="container mx-auto px-6 py-16">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
+                <div class="col-span-1 md:col-span-2">
+                    <img src="https://i.postimg.cc/tT8KdH7L/NAD-LOGO.png" alt="NAD Logo" class="h-16 mb-6">
+                    <p class="text-gray-400 max-w-sm mb-6">NAD PRODUCTIONS. Your Story, Masterfully Told. We build the digital stage and craft cinematic narratives for East Africa and beyond.</p>
+                    <div class="flex gap-4">
+                        <a href="https://www.instagram.com/iamnad_/" class="text-gray-400 hover:text-gold"><i data-lucide="instagram"></i></a>
+                        <a href="https://x.com/iamnad250" class="text-gray-400 hover:text-gold"><i data-lucide="twitter"></i></a>
+                        <a href="https://www.youtube.com/@iamnadofficial" class="text-gray-400 hover:text-gold"><i data-lucide="youtube"></i></a>
+                        <a href="https://wa.me/250786487234" class="text-gray-400 hover:text-gold"><i data-lucide="message-circle"></i></a>
+                        <a href="tel:+250786487234" class="text-gray-400 hover:text-gold"><i data-lucide="phone"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold uppercase tracking-wider mb-6 text-sm">Connect</h4>
+                    <ul class="space-y-4 text-sm text-gray-400">
+                        <li><a href="https://booknadprod.web.app/" class="hover:text-white flex items-center gap-2"><i data-lucide="chevron-right" class="text-gold w-4"></i> Book Us</a></li>
+                        <li><a href="mailto:nadjibullahu@gmail.com" class="hover:text-white flex items-center gap-2"><i data-lucide="chevron-right" class="text-gold w-4"></i> nadjibullahu@gmail.com</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold uppercase tracking-wider mb-6 text-sm">Payments</h4>
+                    <div class="bg-[#111] p-4 border border-gray-800">
+                        <p class="text-xs text-gray-500 uppercase mb-2">MOMO Pay Code</p>
+                        <p class="text-gold font-mono text-xl font-bold">*182*8*1*389763#</p>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-900 mt-16 pt-8 text-center text-gray-600 text-xs uppercase tracking-widest">
+                &copy; 2024 NAD Productions. All Rights Reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- PAYMENT MODAL -->
+    <div id="payment-modal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-black/90 backdrop-blur-sm">
+        <div class="glass-panel border border-gold p-8 rounded-lg max-w-md w-full relative shadow-2xl shadow-yellow-900/20">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i data-lucide="x"></i>
+            </button>
+
+            <!-- Step 1: Payment Form -->
+            <div id="modal-step-1">
+                <h3 class="text-2xl font-serif text-gold mb-2 uppercase">Unlock Content</h3>
+                <p id="modal-product-title" class="text-white mb-1 font-bold">Product Title</p>
+                <p class="text-gray-400 text-sm mb-6">Price: <span id="modal-product-price" class="text-white font-bold">$0.00 USD</span></p>
+
+                <div class="bg-[#1a1a1a] p-4 rounded border border-gray-800 mb-6 text-center">
+                    <p class="text-gray-300 text-sm mb-2">Pay via MoMo Pay:</p>
+                    <div class="text-2xl font-mono text-gold tracking-wider font-bold">*182*8*1*389763#</div>
+                </div>
+
+                <form onsubmit="handlePaymentSubmit(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Email Address</label>
+                        <input id="pay-email" required type="email" class="w-full bg-black border border-gray-700 text-white p-3 rounded focus:border-gold outline-none" placeholder="your@email.com">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-500 mb-1">Transaction ID</label>
+                        <input id="pay-id" required type="number" class="w-full bg-black border border-gray-700 text-white p-3 rounded focus:border-gold outline-none" placeholder="e.g. 25471951390">
+                        <p id="pay-error" class="text-red-500 text-xs mt-2 hidden"></p>
+                    </div>
+                    <button type="submit" class="w-full bg-gold text-black font-bold py-3 uppercase tracking-wider hover:bg-white transition-colors mt-2">Verify & Access</button>
+                </form>
+                
+                <button id="help-btn" onclick="contactSupport()" class="hidden w-full mt-4 text-gray-400 text-sm items-center justify-center hover:text-white">
+                    Having trouble? Contact us
+                </button>
+            </div>
+
+            <!-- Step 2: Success Message -->
+            <div id="modal-step-2" class="hidden text-center py-8">
+                <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-4 text-black">
+                    <i data-lucide="check"></i>
+                </div>
+                <h3 class="text-2xl font-serif text-white mb-2">Payment Verified</h3>
+                <p class="text-gray-400 mb-6">Thank you. Access details have been sent to your email.</p>
+                <button onclick="closeModal()" class="bg-white text-black px-8 py-3 font-bold uppercase tracking-wider hover:bg-gold transition-colors">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // --- DATA ---
+        const CONTACT = { phone: "+250786487234" };
+        const PRODUCTS = [
+            // FILMS
+            { id: 'f1', category: 'Film', title: 'THE VOICES', url: 'https://www.youtube.com/embed/oHXFsr8BbK0', isEmbed: true, price: 0, status: 'Available', desc: 'A cinematic narrative exploring the unseen.' },
+            { id: 'f2', category: 'Film', title: 'GAJU', url: 'https://www.youtube.com/embed/NDJEDBjhucM', isEmbed: true, price: 0, status: 'Available', desc: 'Emotional storytelling at its finest.' },
+            { id: 'f3', category: 'Film', title: 'A GLIMPSE OF AFRICA', url: 'https://www.youtube.com/embed/hQONtXCD1us', isEmbed: true, price: 0, status: 'Available', desc: 'Capturing the reality and beauty of the continent.' },
+            // BOOKS
+            { id: 'b1', category: 'Book', title: 'I LOVED THE IMPOSSIBLE', price: 1.00, status: 'Coming Soon', desc: 'A gripping tale of forbidden affection.' },
+            { id: 'b2', category: 'Book', title: 'IT WAS NOT ME', price: 1.50, status: 'Coming Soon', desc: 'A mystery that will leave you questioning everything.' },
+            { id: 'b3', category: 'Book', title: 'SOLITUDE', price: 0.75, status: 'Coming This Summer', desc: 'Finding peace in the silence.' },
+            { id: 'b4', category: 'Book', title: 'MEANT TO FADE', price: 0.90, status: 'Coming This Winter', desc: 'Some stories aren\'t meant to last forever.' },
+            // MUSIC
+            { id: 'm1', category: 'Music', title: 'WHEELS IN THE HILLS', url: 'https://audiomack.com/iamnad/album/wheels-in-the-hills', price: 0, status: 'Available', desc: 'The debut album. Listen now.' },
+            { id: 'm2', category: 'Music', title: 'OPEN YOUR EYES', price: 0, status: 'Coming Soon', desc: 'A sonic journey into awareness.' },
+            { id: 'm3', category: 'Music', title: 'ROSES', price: 0.50, status: 'Coming 14 Feb 2026', desc: 'Love, loss, and melody.' },
+            // AI FILMS
+            { id: 'af1', category: 'AI Film', title: 'WHEELS IN THE HILLS (VISUAL)', url: 'https://www.youtube.com/@urumuristudios', price: 0, status: 'Coming Soon', desc: 'The visual experience of the album.' },
+            { id: 'af2', category: 'AI Film', title: 'BILAL BIN RABBAH', url: 'https://www.youtube.com/@urumuristudios', price: 0, status: 'Coming Soon', desc: 'A historical epic reimagined.' },
+            { id: 'af3', category: 'AI Film', title: 'GROWN UP', url: 'https://www.youtube.com/@urumuristudios', price: 0, status: 'Coming This Summer', desc: 'Navigating the complexities of age.' },
+            // SCRIPTS
+            { id: 's1', category: 'Script', title: 'LOUISE & JACK', url: 'https://drive.google.com/file/d/1tUdQW3DpZPOpqXCe005gal40_Bj_L0kE/view?usp=sharing', price: 5.00, status: 'Available', desc: 'Original Story. Full script access.' },
+            { id: 's2', category: 'Script', title: 'SHADOWS OF ROOT ZERO', url: 'https://drive.google.com/file/d/1mlCwI6YkekZiIaczyiAeXCH1ysPAbTkr/view?usp=sharing', price: 0, status: 'Available', desc: 'Sci-fi thriller narrative.' },
+            { id: 's3', category: 'Script', title: 'PAUL AND RITA', url: 'https://drive.google.com/file/d/1P0ItqTXCZsi10p6I-VEZhbMJoXDLKF-h/view?usp=sharing', price: 0, status: 'Available', desc: 'A drama of human connection.' }
+        ];
+
+        let currentProduct = null;
+        let attemptCount = 0;
+
+        // --- RENDER LOGIC ---
+        function renderCard(p) {
+            const isFree = p.price === 0;
+            const isComing = p.status.toLowerCase().includes('coming');
+            let btnHtml = '';
+
+            // Button Logic
+            if (isComing) {
+                if (!isFree) {
+                    btnHtml = `<button onclick="openModal('${p.id}')" class="w-full border border-gold text-gold py-2 px-4 uppercase text-xs font-bold tracking-widest hover:bg-gold hover:text-black transition-all flex items-center justify-center gap-2">Pre-Book <i data-lucide="shopping-bag" class="w-3"></i></button>`;
+                } else {
+                    btnHtml = `<span class="block w-full text-center text-gray-500 text-xs uppercase tracking-widest py-2 border border-gray-800 cursor-not-allowed">Coming Soon</span>`;
+                }
+            } else if (isFree) {
+                let action = p.category === 'Music' ? 'Listen' : (p.category.includes('Film') ? 'Watch' : 'Read');
+                btnHtml = `<a href="${p.url}" target="_blank" class="w-full bg-white text-black py-2 px-4 uppercase text-xs font-bold tracking-widest hover:bg-gold transition-all flex items-center justify-center gap-2">${action} <i data-lucide="external-link" class="w-3"></i></a>`;
+            } else {
+                btnHtml = `<button onclick="openModal('${p.id}')" class="w-full bg-gold text-black py-2 px-4 uppercase text-xs font-bold tracking-widest hover:bg-white transition-all flex items-center justify-center gap-2">Buy Now <i data-lucide="shopping-bag" class="w-3"></i></button>`;
+            }
+
+            // Thumbnail Logic
+            let thumbHtml = '';
+            if (p.isEmbed) {
+                thumbHtml = `<iframe src="${p.url}" title="${p.title}" class="w-full h-full opacity-80 group-hover:opacity-100 transition-opacity" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            } else {
+                let iconName = p.category === 'Music' ? 'music' : (p.category.includes('Film') ? 'film' : 'book-open');
+                thumbHtml = `<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-900 to-black group-hover:scale-105 transition-transform duration-700"><i data-lucide="${iconName}" class="text-gold w-12 h-12 opacity-50 group-hover:opacity-100"></i></div>`;
+            }
+
+            return `
+            <div class="group relative bg-[#111] border border-gray-900 overflow-hidden hover:border-gold transition-all duration-500 flex flex-col h-full">
+                <div class="relative aspect-video bg-gray-900 overflow-hidden">
+                    ${thumbHtml}
+                    <div class="absolute top-2 left-2 flex gap-2">
+                        <span class="bg-black/80 text-white text-[10px] uppercase font-bold px-2 py-1 border-l-2 border-gold backdrop-blur-md">${p.category}</span>
+                        ${!isFree ? `<span class="bg-gold text-black text-[10px] uppercase font-bold px-2 py-1">$${p.price}</span>` : ''}
+                    </div>
+                </div>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h3 class="text-xl font-serif font-bold text-white mb-2 group-hover:text-gold transition-colors uppercase">${p.title}</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4 flex-grow font-light">${p.desc}</p>
+                    <div class="mt-auto pt-4 border-t border-gray-900">${btnHtml}</div>
+                </div>
+            </div>`;
+        }
+
+        // Initialize
+        function init() {
+            document.getElementById('films-grid').innerHTML = PRODUCTS.filter(p => p.category === 'Film').map(renderCard).join('');
+            document.getElementById('books-grid').innerHTML = PRODUCTS.filter(p => p.category === 'Book').map(renderCard).join('');
+            document.getElementById('music-grid').innerHTML = PRODUCTS.filter(p => p.category === 'Music').map(renderCard).join('');
+            document.getElementById('ai-films-grid').innerHTML = PRODUCTS.filter(p => p.category === 'AI Film').map(renderCard).join('');
+            document.getElementById('scripts-grid').innerHTML = PRODUCTS.filter(p => p.category === 'Script').map(renderCard).join('');
+            lucide.createIcons(); // Load icons
+        }
+
+        // --- INTERACTIVITY ---
+        
+        // Navbar Scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-black/95', 'backdrop-blur-md', 'border-b', 'border-gold/30', 'py-4');
+                nav.classList.remove('py-6');
+            } else {
+                nav.classList.remove('bg-black/95', 'backdrop-blur-md', 'border-b', 'border-gold/30', 'py-4');
+                nav.classList.add('py-6');
+            }
+        });
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Modal Logic
+        function openModal(productId) {
+            currentProduct = PRODUCTS.find(p => p.id === productId);
+            if(!currentProduct) return;
+            
+            document.getElementById('modal-product-title').innerText = currentProduct.title;
+            document.getElementById('modal-product-price').innerText = `$${currentProduct.price.toFixed(2)} USD`;
+            document.getElementById('modal-step-1').classList.remove('hidden');
+            document.getElementById('modal-step-2').classList.add('hidden');
+            document.getElementById('payment-modal').classList.remove('hidden');
+            document.getElementById('payment-modal').classList.add('flex');
+            attemptCount = 0;
+            document.getElementById('pay-error').classList.add('hidden');
+            document.getElementById('help-btn').classList.add('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('payment-modal').classList.add('hidden');
+            document.getElementById('payment-modal').classList.remove('flex');
+        }
+
+        function handlePaymentSubmit(e) {
+            e.preventDefault();
+            const idInput = document.getElementById('pay-id');
+            const errorMsg = document.getElementById('pay-error');
+            const helpBtn = document.getElementById('help-btn');
+            
+            const minId = 25471951376;
+            const currentId = parseInt(idInput.value);
+
+            if (isNaN(currentId) || currentId <= minId) {
+                attemptCount++;
+                errorMsg.innerText = "Invalid Transaction ID. Please check the number.";
+                errorMsg.classList.remove('hidden');
+                
+                if(attemptCount >= 3) {
+                    errorMsg.innerText = "Verification failed. Please contact us for help.";
+                    helpBtn.classList.remove('hidden');
+                    helpBtn.classList.add('flex');
+                }
+                return;
+            }
+
+            // Success
+            document.getElementById('modal-step-1').classList.add('hidden');
+            document.getElementById('modal-step-2').classList.remove('hidden');
+        }
+
+        function contactSupport() {
+            const email = document.getElementById('pay-email').value;
+            const txId = document.getElementById('pay-id').value;
+            const msg = `Hello NAD Productions, I'm trying to buy ${currentProduct.title}. My Transaction ID is ${txId} and Email is ${email}.`;
+            window.open(`https://wa.me/${CONTACT.phone.replace('+','')}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // Run Init
+        init();
+    </script>
+</body>
+</html>
