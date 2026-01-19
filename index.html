@@ -371,9 +371,18 @@
     <!-- JAVASCRIPT LOGIC -->
     <script>
         // --- GEMINI AI CONFIG ---
-        const apiKey = ""; // Injected by environment
+        // ⚠️ CRITICAL: IF YOU ARE HOSTING THIS ON GITHUB, YOU MUST ADD YOUR API KEY BELOW.
+        // Get one for free here: https://aistudio.google.com/app/apikey
+        // Example: const apiKey = "AIzaSyD..."; 
+        const apiKey = ""; 
 
         async function callGemini(prompt) {
+            // Safety Check for missing key
+            if (!apiKey) {
+                console.error("Gemini API Key is missing.");
+                return "Configuration Error: API Key is missing. If you are the site owner, please open index.html and paste your Google Gemini API Key in the code (around line 430).";
+            }
+
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
             const payload = {
                 contents: [{ parts: [{ text: prompt }] }]
