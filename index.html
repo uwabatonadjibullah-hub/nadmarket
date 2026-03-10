@@ -317,7 +317,6 @@
             { id: 'af4', category: 'AI Film', title: 'THE HITMAN', url: 'https://drive.google.com/file/d/1xCNMrbmwXdsLO8ugAQEgas02wGOX83qc/preview', thumbnail: 'https://i.postimg.cc/fykh92nh/Gemini-Generated-Image-p44y0rp44y0rp44y.png', price: 0.40, displayPrice: '500 FRW', status: 'Available', desc: 'A cold, calculated AI thriller. Precision is everything.' },
             { id: 'af1', category: 'AI Film', title: 'WHEELS (VISUAL)', url: 'https://www.youtube.com/embed/t6fNn1p2V2E', price: 0, status: 'Coming Soon', desc: 'The visual experience of the album.' },
             { id: 'af2', category: 'AI Film', title: 'BILAL BIN RABBAH', url: 'https://www.youtube.com/embed/t6fNn1p2V2E', price: 0, status: 'Coming Soon', desc: 'A historical epic reimagined through AI.' },
-            { id: 'af3', category: 'AI Film', title: 'GROWN UP', url: 'https://www.youtube.com/embed/t6fNn1p2V2E', price: 0, status: 'Coming This Summer', desc: 'Navigating the complexities of age.' },
             
             // FILMS
             { id: 'f1', category: 'Film', title: 'THE VOICES', url: 'https://www.youtube.com/embed/oHXFsr8BbK0', price: 0, status: 'Available', desc: 'A cinematic narrative exploring the unseen.' },
@@ -376,17 +375,27 @@
                 btnHtml = `<button onclick="openModal('${p.id}')" class="w-full bg-gold text-black py-2 uppercase text-[10px] font-bold tracking-widest hover:bg-white transition-all">BUY NOW</button>`;
             }
 
-            // AUTO-THUMBNAIL LOGIC FOR YOUTUBE
+            // AUTO-THUMBNAIL LOGIC FOR YOUTUBE (Prioritizing maxresdefault)
             let finalThumbnail = p.thumbnail;
+            let videoIdFallback = null;
             if (!finalThumbnail && p.url && p.url.includes('youtube.com')) {
-                // Extracting ID from embed URL
-                const videoId = p.url.split('/').pop().split('?')[0];
-                finalThumbnail = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+                videoIdFallback = p.url.split('/').pop().split('?')[0];
+                finalThumbnail = `https://img.youtube.com/vi/${videoIdFallback}/maxresdefault.jpg`;
             }
 
-            let thumbHtml = finalThumbnail ? 
-                `<img src="${finalThumbnail}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110">` : 
-                `<div class="w-full h-full flex items-center justify-center bg-gray-900 group-hover:scale-105 transition-all"><i data-lucide="${p.category === 'Music' ? 'music' : (p.category.includes('Film') ? 'film' : 'book-open')}" class="text-gold w-10 opacity-50"></i></div>`;
+            let thumbHtml = '';
+            if (finalThumbnail) {
+                // If using maxresdefault, we add an onerror handler to flip to hqdefault in case maxres isn't available
+                const onerrorAttr = videoIdFallback ? `onerror="this.src='https://img.youtube.com/vi/${videoIdFallback}/hqdefault.jpg'; this.onerror=null;"` : "";
+                thumbHtml = `<img src="${finalThumbnail}" ${onerrorAttr} class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110">`;
+            } else {
+                let iconName = 'film';
+                if (p.category === 'AI Film') iconName = 'sparkles';
+                else if (p.category === 'Music') iconName = 'music';
+                else if (p.category === 'Book' || p.category === 'Script') iconName = 'book-open';
+                
+                thumbHtml = `<div class="w-full h-full flex items-center justify-center bg-gray-900 group-hover:scale-105 transition-all"><i data-lucide="${iconName}" class="text-gold w-10 opacity-50"></i></div>`;
+            }
 
             return `
             <div class="group relative bg-[#111] border border-gray-900 overflow-hidden hover:border-gold transition-all flex flex-col h-full">
