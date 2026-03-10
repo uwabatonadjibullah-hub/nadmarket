@@ -57,9 +57,11 @@
             animation: shine 3s linear infinite;
         }
         @keyframes shine {
-            to {
-                background-position: 200% center;
-            }
+            to { background-position: 200% center; }
+        }
+        /* Fullscreen Viewer transition */
+        #content-viewer {
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
     </style>
 </head>
@@ -110,7 +112,6 @@
 
     <!-- HERO SECTION -->
     <header class="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <!-- Background Image -->
         <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=2071&auto=format&fit=crop')] bg-cover bg-center opacity-30"></div>
         <div class="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
         
@@ -175,7 +176,6 @@
                 <h2 class="text-3xl md:text-5xl font-serif font-bold text-white mb-4 tracking-wider uppercase">Cinematic Works</h2>
                 <div class="h-1 w-24 bg-gold mx-auto mb-4"></div>
             </div>
-            <!-- Films Container -->
             <div id="films-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </div>
     </section>
@@ -195,7 +195,6 @@
     <section id="music" class="py-24 bg-[#050505]">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
-                <!-- Music -->
                 <div>
                     <div class="flex items-center gap-4 mb-8">
                         <i data-lucide="music" class="text-gold"></i>
@@ -203,7 +202,6 @@
                     </div>
                     <div id="music-grid" class="space-y-6"></div>
                 </div>
-                <!-- AI Films -->
                 <div>
                     <div class="flex items-center gap-4 mb-8">
                         <i data-lucide="film" class="text-gold"></i>
@@ -262,6 +260,28 @@
         </div>
     </footer>
 
+    <!-- CONTENT VIEWER MODAL (NEW) -->
+    <div id="content-viewer" class="fixed inset-0 z-[60] hidden bg-black flex-col">
+        <div class="flex items-center justify-between p-4 bg-black/80 backdrop-blur-md border-b border-gray-900">
+            <div class="flex items-center gap-3">
+                <img src="https://i.postimg.cc/tT8KdH7L/NAD-LOGO.png" alt="Logo" class="h-8">
+                <h4 id="viewer-title" class="text-gold font-serif font-bold uppercase tracking-wider text-sm md:text-base">Content Viewer</h4>
+            </div>
+            <button onclick="closeViewer()" class="bg-white/10 hover:bg-gold hover:text-black text-white p-2 transition-all rounded-full">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div id="viewer-container" class="flex-grow relative bg-black flex items-center justify-center">
+            <!-- Loading indicator -->
+            <div id="viewer-loader" class="absolute inset-0 flex flex-col items-center justify-center bg-black z-10">
+                <div class="w-12 h-12 border-4 border-gold border-t-transparent rounded-full animate-spin mb-4"></div>
+                <p class="text-gray-500 text-xs uppercase tracking-[0.3em]">Cinematics Loading...</p>
+            </div>
+            <!-- Dynamic Iframe -->
+            <iframe id="viewer-frame" class="w-full h-full border-none" allow="autoplay; fullscreen" onload="document.getElementById('viewer-loader').style.display='none'"></iframe>
+        </div>
+    </div>
+
     <!-- PAYMENT MODAL -->
     <div id="payment-modal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-black/90 backdrop-blur-sm transition-opacity duration-300">
         <div class="glass-panel border border-gold p-8 rounded-lg max-w-md w-full relative shadow-2xl shadow-yellow-900/20">
@@ -269,7 +289,6 @@
                 <i data-lucide="x"></i>
             </button>
 
-            <!-- Step 1: Payment Form -->
             <div id="modal-step-1">
                 <h3 class="text-2xl font-serif text-gold mb-2 uppercase">Unlock Content</h3>
                 <p id="modal-product-title" class="text-white mb-1 font-bold">Product Title</p>
@@ -298,7 +317,6 @@
                 </button>
             </div>
 
-            <!-- Step 2: Success Message -->
             <div id="modal-step-2" class="hidden text-center py-8">
                 <div class="w-16 h-16 bg-gold rounded-full flex items-center justify-center mx-auto mb-4 text-black">
                     <i data-lucide="check"></i>
@@ -312,34 +330,58 @@
 
     <!-- JAVASCRIPT LOGIC -->
     <script>
-        // --- DATA & EXISTING LOGIC ---
         const CONTACT = { phone: "+250786487234" };
         const PRODUCTS = [
             // FILMS
-            { id: 'f1', category: 'Film', title: 'THE VOICES', url: 'https://www.youtube.com/embed/oHXFsr8BbK0', isEmbed: true, price: 0, status: 'Available', desc: 'A cinematic narrative exploring the unseen.' },
-            { id: 'f2', category: 'Film', title: 'GAJU', url: 'https://www.youtube.com/embed/NDJEDBjhucM', isEmbed: true, price: 0, status: 'Available', desc: 'Emotional storytelling at its finest.' },
-            { id: 'f3', category: 'Film', title: 'A GLIMPSE OF AFRICA', url: 'https://www.youtube.com/embed/hQONtXCD1us', isEmbed: true, price: 0, status: 'Available', desc: 'Capturing the reality and beauty of the continent.' },
+            { id: 'f1', category: 'Film', title: 'THE VOICES', url: 'https://www.youtube.com/embed/oHXFsr8BbK0', price: 0, status: 'Available', desc: 'A cinematic narrative exploring the unseen.' },
+            { id: 'f2', category: 'Film', title: 'GAJU', url: 'https://www.youtube.com/embed/NDJEDBjhucM', price: 0, status: 'Available', desc: 'Emotional storytelling at its finest.' },
+            { id: 'f3', category: 'Film', title: 'A GLIMPSE OF AFRICA', url: 'https://www.youtube.com/embed/hQONtXCD1us', price: 0, status: 'Available', desc: 'Capturing the reality and beauty of the continent.' },
             // BOOKS
             { id: 'b1', category: 'Book', title: 'I LOVED THE IMPOSSIBLE', price: 1.00, status: 'Coming Soon', desc: 'A gripping tale of forbidden affection.' },
             { id: 'b2', category: 'Book', title: 'IT WAS NOT ME', price: 1.50, status: 'Coming Soon', desc: 'A mystery that will leave you questioning everything.' },
             { id: 'b3', category: 'Book', title: 'SOLITUDE', price: 0.75, status: 'Coming This Summer', desc: 'Finding peace in the silence.' },
             { id: 'b4', category: 'Book', title: 'MEANT TO FADE', price: 0.90, status: 'Coming This Winter', desc: 'Some stories aren\'t meant to last forever.' },
             // MUSIC
-            { id: 'm1', category: 'Music', title: 'WHEELS IN THE HILLS', url: 'https://audiomack.com/iamnad/album/wheels-in-the-hills', price: 0, status: 'Available', desc: 'The debut album. Listen now.' },
+            { id: 'm1', category: 'Music', title: 'WHEELS IN THE HILLS', url: 'https://audiomack.com/embed/album/iamnad/wheels-in-the-hills', price: 0, status: 'Available', desc: 'The debut album. Listen now.' },
             { id: 'm2', category: 'Music', title: 'OPEN YOUR EYES', price: 0, status: 'Coming Soon', desc: 'A sonic journey into awareness.' },
             { id: 'm3', category: 'Music', title: 'ROSES', price: 0.50, status: 'Coming 14 Feb 2026', desc: 'Love, loss, and melody.' },
             // AI FILMS
-            { id: 'af1', category: 'AI Film', title: 'WHEELS IN THE HILLS (VISUAL)', url: 'https://www.youtube.com/@urumuristudios', price: 0, status: 'Coming Soon', desc: 'The visual experience of the album.' },
-            { id: 'af2', category: 'AI Film', title: 'BILAL BIN RABBAH', url: 'https://www.youtube.com/@urumuristudios', price: 0, status: 'Coming Soon', desc: 'A historical epic reimagined.' },
-            { id: 'af3', category: 'AI Film', title: 'GROWN UP', url: 'https://www.youtube.com/@urumuristudios', price: 0, status: 'Coming This Summer', desc: 'Navigating the complexities of age.' },
+            { id: 'af4', category: 'AI Film', title: 'THE HITMAN', url: 'https://drive.google.com/file/d/1xCNMrbmwXdsLO8ugAQEgas02wGOX83qc/preview', thumbnail: 'https://i.postimg.cc/fykh92nh/Gemini-Generated-Image-p44y0rp44y0rp44y.png', price: 0.40, displayPrice: '500 FRW', status: 'Available', desc: 'A cold, calculated AI-powered cinematic thriller. Precision is everything.' },
+            { id: 'af1', category: 'AI Film', title: 'WHEELS IN THE HILLS (VISUAL)', url: 'https://www.youtube.com/embed/t6fNn1p2V2E', price: 0, status: 'Coming Soon', desc: 'The visual experience of the album.' },
+            { id: 'af2', category: 'AI Film', title: 'BILAL BIN RABBAH', url: 'https://www.youtube.com/embed/t6fNn1p2V2E', price: 0, status: 'Coming Soon', desc: 'A historical epic reimagined.' },
+            { id: 'af3', category: 'AI Film', title: 'GROWN UP', url: 'https://www.youtube.com/embed/t6fNn1p2V2E', price: 0, status: 'Coming This Summer', desc: 'Navigating the complexities of age.' },
             // SCRIPTS
-            { id: 's1', category: 'Script', title: 'LOUISE & JACK', url: 'https://drive.google.com/file/d/1tUdQW3DpZPOpqXCe005gal40_Bj_L0kE/view?usp=sharing', price: 5.00, status: 'Available', desc: 'Original Story. Full script access.' },
-            { id: 's2', category: 'Script', title: 'SHADOWS OF ROOT ZERO', url: 'https://drive.google.com/file/d/1mlCwI6YkekZiIaczyiAeXCH1ysPAbTkr/view?usp=sharing', price: 0, status: 'Available', desc: 'Sci-fi thriller narrative.' },
-            { id: 's3', category: 'Script', title: 'PAUL AND RITA', url: 'https://drive.google.com/file/d/1P0ItqTXCZsi10p6I-VEZhbMJoXDLKF-h/view?usp=sharing', price: 0, status: 'Available', desc: 'A drama of human connection.' }
+            { id: 's1', category: 'Script', title: 'LOUISE & JACK', url: 'https://drive.google.com/file/d/1tUdQW3DpZPOpqXCe005gal40_Bj_L0kE/preview', price: 5.00, status: 'Available', desc: 'Original Story. Full script access.' },
+            { id: 's2', category: 'Script', title: 'SHADOWS OF ROOT ZERO', url: 'https://drive.google.com/file/d/1mlCwI6YkekZiIaczyiAeXCH1ysPAbTkr/preview', price: 0, status: 'Available', desc: 'Sci-fi thriller narrative.' },
+            { id: 's3', category: 'Script', title: 'PAUL AND RITA', url: 'https://drive.google.com/file/d/1P0ItqTXCZsi10p6I-VEZhbMJoXDLKF-h/preview', price: 0, status: 'Available', desc: 'A drama of human connection.' }
         ];
 
         let currentProduct = null;
         let attemptCount = 0;
+
+        // --- CONTENT VIEWER LOGIC ---
+        function openViewer(title, url) {
+            const viewer = document.getElementById('content-viewer');
+            const frame = document.getElementById('viewer-frame');
+            const loader = document.getElementById('viewer-loader');
+            const titleEl = document.getElementById('viewer-title');
+            
+            titleEl.innerText = title;
+            loader.style.display = 'flex';
+            frame.src = url;
+            viewer.classList.remove('hidden');
+            viewer.classList.add('flex');
+            document.body.style.overflow = 'hidden'; // Stop scrolling
+        }
+
+        function closeViewer() {
+            const viewer = document.getElementById('content-viewer');
+            const frame = document.getElementById('viewer-frame');
+            viewer.classList.add('hidden');
+            viewer.classList.remove('flex');
+            frame.src = ''; // Stop video playback
+            document.body.style.overflow = 'auto';
+        }
 
         // --- RENDER LOGIC ---
         function renderCard(p) {
@@ -347,7 +389,6 @@
             const isComing = p.status.toLowerCase().includes('coming');
             let btnHtml = '';
 
-            // Button Logic
             if (isComing) {
                 if (!isFree) {
                     btnHtml = `<button onclick="openModal('${p.id}')" class="w-full border border-gold text-gold py-2 px-4 uppercase text-xs font-bold tracking-widest hover:bg-gold hover:text-black transition-all flex items-center justify-center gap-2">Pre-Book <i data-lucide="shopping-bag" class="w-3"></i></button>`;
@@ -356,15 +397,14 @@
                 }
             } else if (isFree) {
                 let action = p.category === 'Music' ? 'Listen' : (p.category.includes('Film') ? 'Watch' : 'Read');
-                btnHtml = `<a href="${p.url}" target="_blank" class="w-full bg-white text-black py-2 px-4 uppercase text-xs font-bold tracking-widest hover:bg-gold transition-all flex items-center justify-center gap-2">${action} <i data-lucide="external-link" class="w-3"></i></a>`;
+                btnHtml = `<button onclick="openViewer('${p.title}', '${p.url}')" class="w-full bg-white text-black py-2 px-4 uppercase text-xs font-bold tracking-widest hover:bg-gold transition-all flex items-center justify-center gap-2">${action} <i data-lucide="play" class="w-3"></i></button>`;
             } else {
                 btnHtml = `<button onclick="openModal('${p.id}')" class="w-full bg-gold text-black py-2 px-4 uppercase text-xs font-bold tracking-widest hover:bg-white transition-all flex items-center justify-center gap-2">Buy Now <i data-lucide="shopping-bag" class="w-3"></i></button>`;
             }
 
-            // Thumbnail Logic
             let thumbHtml = '';
-            if (p.isEmbed) {
-                thumbHtml = `<iframe src="${p.url}" title="${p.title}" class="w-full h-full opacity-80 group-hover:opacity-100 transition-opacity" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+            if (p.thumbnail) {
+                thumbHtml = `<img src="${p.thumbnail}" alt="${p.title}" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-all duration-700 group-hover:scale-110">`;
             } else {
                 let iconName = p.category === 'Music' ? 'music' : (p.category.includes('Film') ? 'film' : 'book-open');
                 thumbHtml = `<div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-900 to-black group-hover:scale-105 transition-transform duration-700"><i data-lucide="${iconName}" class="text-gold w-12 h-12 opacity-50 group-hover:opacity-100"></i></div>`;
@@ -376,7 +416,7 @@
                     ${thumbHtml}
                     <div class="absolute top-2 left-2 flex gap-2">
                         <span class="bg-black/80 text-white text-[10px] uppercase font-bold px-2 py-1 border-l-2 border-gold backdrop-blur-md">${p.category}</span>
-                        ${!isFree ? `<span class="bg-gold text-black text-[10px] uppercase font-bold px-2 py-1">$${p.price}</span>` : ''}
+                        ${!isFree ? `<span class="bg-gold text-black text-[10px] uppercase font-bold px-2 py-1">${p.displayPrice || '$'+p.price.toFixed(2)}</span>` : ''}
                     </div>
                 </div>
                 <div class="p-6 flex flex-col flex-grow">
@@ -387,19 +427,15 @@
             </div>`;
         }
 
-        // Initialize
         function init() {
             document.getElementById('films-grid').innerHTML = PRODUCTS.filter(p => p.category === 'Film').map(renderCard).join('');
             document.getElementById('books-grid').innerHTML = PRODUCTS.filter(p => p.category === 'Book').map(renderCard).join('');
             document.getElementById('music-grid').innerHTML = PRODUCTS.filter(p => p.category === 'Music').map(renderCard).join('');
             document.getElementById('ai-films-grid').innerHTML = PRODUCTS.filter(p => p.category === 'AI Film').map(renderCard).join('');
             document.getElementById('scripts-grid').innerHTML = PRODUCTS.filter(p => p.category === 'Script').map(renderCard).join('');
-            lucide.createIcons(); // Load icons
+            lucide.createIcons();
         }
 
-        // --- INTERACTIVITY ---
-        
-        // Navbar Scroll
         window.addEventListener('scroll', () => {
             const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
@@ -411,20 +447,15 @@
             }
         });
 
-        // Mobile Menu
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('hidden');
-        });
+        menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 
-        // Modal Logic
         function openModal(productId) {
             currentProduct = PRODUCTS.find(p => p.id === productId);
             if(!currentProduct) return;
-            
             document.getElementById('modal-product-title').innerText = currentProduct.title;
-            document.getElementById('modal-product-price').innerText = `$${currentProduct.price.toFixed(2)} USD`;
+            document.getElementById('modal-product-price').innerText = currentProduct.displayPrice || `$${currentProduct.price.toFixed(2)} USD`;
             document.getElementById('modal-step-1').classList.remove('hidden');
             document.getElementById('modal-step-2').classList.add('hidden');
             document.getElementById('payment-modal').classList.remove('hidden');
@@ -432,28 +463,21 @@
             attemptCount = 0;
             document.getElementById('pay-error').classList.add('hidden');
             document.getElementById('help-btn').classList.add('hidden');
-
-            // Clear inputs
             document.getElementById('pay-email').value = '';
             document.getElementById('pay-id').value = '';
         }
 
         function openTipModal() {
             currentProduct = { title: 'Support NAD Productions', price: 0, id: 'tip', isTip: true, status: 'Available' }; 
-            
             document.getElementById('modal-product-title').innerText = currentProduct.title;
             document.getElementById('modal-product-price').innerText = "Enter Amount via MoMo";
-            
             document.getElementById('modal-step-1').classList.remove('hidden');
             document.getElementById('modal-step-2').classList.add('hidden');
             document.getElementById('payment-modal').classList.remove('hidden');
             document.getElementById('payment-modal').classList.add('flex');
-            
             attemptCount = 0;
             document.getElementById('pay-error').classList.add('hidden');
             document.getElementById('help-btn').classList.add('hidden');
-            
-            // Clear inputs
             document.getElementById('pay-email').value = '';
             document.getElementById('pay-id').value = '';
         }
@@ -468,7 +492,6 @@
             const idInput = document.getElementById('pay-id');
             const errorMsg = document.getElementById('pay-error');
             const helpBtn = document.getElementById('help-btn');
-            
             const minId = 25471951376;
             const currentId = parseInt(idInput.value);
 
@@ -476,7 +499,6 @@
                 attemptCount++;
                 errorMsg.innerText = "Invalid Transaction ID. Please check the number.";
                 errorMsg.classList.remove('hidden');
-                
                 if(attemptCount >= 3) {
                     errorMsg.innerText = "Verification failed. Please contact us for help.";
                     helpBtn.classList.remove('hidden');
@@ -485,43 +507,27 @@
                 return;
             }
 
-            // Success
             document.getElementById('modal-step-1').classList.add('hidden');
             const step2 = document.getElementById('modal-step-2');
             step2.classList.remove('hidden');
-
             const successBtn = document.getElementById('success-action-btn');
             const successMsg = document.getElementById('success-message');
-
             const isPreBook = currentProduct.status && currentProduct.status.toLowerCase().includes('coming');
             const isTip = currentProduct.isTip;
 
             if (isPreBook || isTip) {
-                // Case: Pre-book or Tip -> Close Button
                 successBtn.innerText = "Close";
                 successBtn.onclick = closeModal;
                 successMsg.innerText = isTip ? "Thank you for your generous support!" : "Payment Verified. You will be notified via email when it drops.";
             } else {
-                // Case: Content -> Access Button
-                let actionText = "Open Content";
-                let iconName = "external-link";
-                
-                if (currentProduct.category === 'Music') {
-                    actionText = "Listen Now";
-                    iconName = "music";
-                } else if (currentProduct.category.includes('Film') || currentProduct.category.includes('AI')) {
-                    actionText = "Watch Now";
-                    iconName = "play";
-                } else if (currentProduct.category === 'Book' || currentProduct.category === 'Script') {
-                    actionText = "Read Now";
-                    iconName = "book-open";
-                }
-                
-                // Update button text and icon
-                successBtn.innerHTML = `${actionText} <i data-lucide="${iconName}" class="w-4 h-4 ml-2 inline"></i>`;
-                successBtn.onclick = () => window.open(currentProduct.url, '_blank');
-                successMsg.innerText = "Payment Verified. Access your content below.";
-                lucide.createIcons(); // Refresh icons in the button
+                let actionText = currentProduct.category === 'Music' ? "Listen Now" : (currentProduct.category === 'Book' || currentProduct.category === 'Script' ? "Read Now" : "Watch Now");
+                successBtn.innerHTML = `${actionText} <i data-lucide="play" class="w-4 h-4 ml-2 inline"></i>`;
+                successBtn.onclick = () => {
+                    closeModal();
+                    openViewer(currentProduct.title, currentProduct.url);
+                };
+                successMsg.innerText = "Payment Verified. You can now access the content directly below.";
+                lucide.createIcons();
             }
         }
 
@@ -532,7 +538,6 @@
             window.open(`https://wa.me/${CONTACT.phone.replace('+','')}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // Run Init
         init();
     </script>
 </body>
